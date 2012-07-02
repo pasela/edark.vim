@@ -5,6 +5,8 @@ A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color sche
 Thanks to Radu Dineiu, the rdark author.  
 (rdark http://www.vim.org/scripts/script.php?script_id=1732)
 
+![screenshot](https://raw.github.com/pasela/edark.vim/master/screenshot.png)
+
 FEATURES
 --------
 - `let edark_current_line = 1` if you want to highlight the current line
