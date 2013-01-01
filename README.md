@@ -9,9 +9,9 @@ Thanks to Radu Dineiu, the rdark author.
 
 FEATURES
 --------
-- `let edark_current_line = 1` if you want to highlight the current line
-- `let edark_ime_cursor = 1` if you want to highlight the cursor when IME on
-- `let edark_insert_status_line = 1` if you want to highlight the status line when insert-mode
+- `let g:edark_current_line = 1` if you want to highlight the current line
+- `let g:edark_ime_cursor = 1` if you want to highlight the cursor when IME on
+- `let g:edark_insert_status_line = 1` if you want to highlight the status line when insert-mode
 
 INSTALLATION
 ------------
@@ -23,7 +23,7 @@ Yuki \<paselan@gmail.com\>
 
 COPYRIGHT
 ---------
-Copyright (c) 2012, Yuki \<paselan@gmail.com\>
+Copyright (c) 2013, Yuki \<paselan@gmail.com\>
 
 LICENSE
 -------

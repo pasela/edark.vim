@@ -1,23 +1,26 @@
 " Vim color file
 " Maintainer: Yuki <paselan at Gmail.com>
 " URL: https://github.com/pasela/edark.vim
-" Last Change: Mon, 02 Jul 2012 11:22:58 +0900
-" Version: 0.1.8
+" Last Change: Wed, 02 Jan 2013 01:09:32 +0900
+" Version: 0.1.9
 "
 " A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color scheme.
-" 
+"
 " Thanks to Radu Dineiu, the rdark author.
 " (rdark http://www.vim.org/scripts/script.php?script_id=1732)
 "
 " Features:
-"   - let edark_current_line = 1 if you want to highlight the current line
-"   - let edark_ime_cursor = 1 if you want to highlight the cursor when IME on
-"   - let edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
-"
-" ToDo:
-"   - Support InsertEnter/Leave on CUI
+"   - let g:edark_current_line = 1 if you want to highlight the current line
+"   - let g:edark_ime_cursor = 1 if you want to highlight the cursor when IME on
+"   - let g:edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
 "
 " Changelog:
+"   0.1.9
+"     - Performance improved. Stopped dynamic calculation of CUI color palette
+"       index and set it statically.
+"     - t_Co=88 terminal is no longer supported.
+"     - t_Co and gui_running are no longer checked.
+"
 "   0.1.8
 "     - CHANGE 'diffFile', 'diffAdded', 'diffDeleted', 'diffChanged' color.
 "
@@ -43,6 +46,27 @@
 "
 "   0.1
 "     - initial version
+"
+" License: MIT License {{{
+"     Permission is hereby granted, free of charge, to any person obtaining
+"     a copy of this software and associated documentation files (the
+"     "Software"), to deal in the Software without restriction, including
+"     without limitation the rights to use, copy, modify, merge, publish,
+"     distribute, sublicense, and/or sell copies of the Software, and to
+"     permit persons to whom the Software is furnished to do so, subject to
+"     the following conditions:
+"
+"     The above copyright notice and this permission notice shall be included
+"     in all copies or substantial portions of the Software.
+"
+"     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+"     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+"     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+"     IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+"     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+"     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+"     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+" }}}
 
 set background=dark
 
@@ -51,403 +75,175 @@ if exists("syntax_on")
   syntax reset
 endif
 
-let colors_name = "edark"
+let g:colors_name = "edark"
 
-
-if has("gui_running") || &t_Co == 88 || &t_Co == 256
-    " functions {{{
-    " returns an approximate grey index for the given grey level
-    fun <SID>grey_number(x)
-        if &t_Co == 88
-            if a:x < 23
-                return 0
-            elseif a:x < 69
-                return 1
-            elseif a:x < 103
-                return 2
-            elseif a:x < 127
-                return 3
-            elseif a:x < 150
-                return 4
-            elseif a:x < 173
-                return 5
-            elseif a:x < 196
-                return 6
-            elseif a:x < 219
-                return 7
-            elseif a:x < 243
-                return 8
-            else
-                return 9
-            endif
-        else
-            if a:x < 14
-                return 0
-            else
-                let l:n = (a:x - 8) / 10
-                let l:m = (a:x - 8) % 10
-                if l:m < 5
-                    return l:n
-                else
-                    return l:n + 1
-                endif
-            endif
-        endif
-    endfun
-
-    " returns the actual grey level represented by the grey index
-    fun <SID>grey_level(n)
-        if &t_Co == 88
-            if a:n == 0
-                return 0
-            elseif a:n == 1
-                return 46
-            elseif a:n == 2
-                return 92
-            elseif a:n == 3
-                return 115
-            elseif a:n == 4
-                return 139
-            elseif a:n == 5
-                return 162
-            elseif a:n == 6
-                return 185
-            elseif a:n == 7
-                return 208
-            elseif a:n == 8
-                return 231
-            else
-                return 255
-            endif
-        else
-            if a:n == 0
-                return 0
-            else
-                return 8 + (a:n * 10)
-            endif
-        endif
-    endfun
-
-    " returns the palette index for the given grey index
-    fun <SID>grey_color(n)
-        if &t_Co == 88
-            if a:n == 0
-                return 16
-            elseif a:n == 9
-                return 79
-            else
-                return 79 + a:n
-            endif
-        else
-            if a:n == 0
-                return 16
-            elseif a:n == 25
-                return 231
-            else
-                return 231 + a:n
-            endif
-        endif
-    endfun
-
-    " returns an approximate color index for the given color level
-    fun <SID>rgb_number(x)
-        if &t_Co == 88
-            if a:x < 69
-                return 0
-            elseif a:x < 172
-                return 1
-            elseif a:x < 230
-                return 2
-            else
-                return 3
-            endif
-        else
-            if a:x < 75
-                return 0
-            else
-                let l:n = (a:x - 55) / 40
-                let l:m = (a:x - 55) % 40
-                if l:m < 20
-                    return l:n
-                else
-                    return l:n + 1
-                endif
-            endif
-        endif
-    endfun
-
-    " returns the actual color level for the given color index
-    fun <SID>rgb_level(n)
-        if &t_Co == 88
-            if a:n == 0
-                return 0
-            elseif a:n == 1
-                return 139
-            elseif a:n == 2
-                return 205
-            else
-                return 255
-            endif
-        else
-            if a:n == 0
-                return 0
-            else
-                return 55 + (a:n * 40)
-            endif
-        endif
-    endfun
-
-    " returns the palette index for the given R/G/B color indices
-    fun <SID>rgb_color(x, y, z)
-        if &t_Co == 88
-            return 16 + (a:x * 16) + (a:y * 4) + a:z
-        else
-            return 16 + (a:x * 36) + (a:y * 6) + a:z
-        endif
-    endfun
-
-    " returns the palette index to approximate the given R/G/B color levels
-    fun <SID>color(r, g, b)
-        " get the closest grey
-        let l:gx = <SID>grey_number(a:r)
-        let l:gy = <SID>grey_number(a:g)
-        let l:gz = <SID>grey_number(a:b)
-
-        " get the closest color
-        let l:x = <SID>rgb_number(a:r)
-        let l:y = <SID>rgb_number(a:g)
-        let l:z = <SID>rgb_number(a:b)
-
-        if l:gx == l:gy && l:gy == l:gz
-            " there are two possibilities
-            let l:dgr = <SID>grey_level(l:gx) - a:r
-            let l:dgg = <SID>grey_level(l:gy) - a:g
-            let l:dgb = <SID>grey_level(l:gz) - a:b
-            let l:dgrey = (l:dgr * l:dgr) + (l:dgg * l:dgg) + (l:dgb * l:dgb)
-            let l:dr = <SID>rgb_level(l:gx) - a:r
-            let l:dg = <SID>rgb_level(l:gy) - a:g
-            let l:db = <SID>rgb_level(l:gz) - a:b
-            let l:drgb = (l:dr * l:dr) + (l:dg * l:dg) + (l:db * l:db)
-            if l:dgrey < l:drgb
-                " use the grey
-                return <SID>grey_color(l:gx)
-            else
-                " use the color
-                return <SID>rgb_color(l:x, l:y, l:z)
-            endif
-        else
-            " only one possibility
-            return <SID>rgb_color(l:x, l:y, l:z)
-        endif
-    endfun
-
-    " returns the palette index to approximate the 'rrggbb' hex string
-    fun <SID>rgb(rgb)
-        if strlen(a:rgb) != 6
-            return a:rgb
-        endif
-        let l:r = ("0x" . strpart(a:rgb, 0, 2)) + 0
-        let l:g = ("0x" . strpart(a:rgb, 2, 2)) + 0
-        let l:b = ("0x" . strpart(a:rgb, 4, 2)) + 0
-
-        return <SID>color(l:r, l:g, l:b)
-    endfun
-
-    " sets the highlighting for the given group
-    fun <SID>X(group, fg, bg, attr)
-        if a:fg != ""
-            let l:fg = strlen(a:fg) == 6 ? "#" . a:fg : a:fg
-            exec "hi " . a:group . " guifg=" . l:fg . " ctermfg=" . <SID>rgb(a:fg)
-        endif
-        if a:bg != ""
-            let l:bg = strlen(a:bg) == 6 ? "#" . a:bg : a:bg
-            exec "hi " . a:group . " guibg=" . l:bg . " ctermbg=" . <SID>rgb(a:bg)
-        endif
-        if a:attr != ""
-            exec "hi " . a:group . " gui=" . a:attr . " cterm=" . a:attr
-        endif
-    endfun
-    " }}}
-
-    " Current Line
-    if exists('edark_current_line') && edark_current_line == 1
-      set cursorline
-      call <SID>X('CursorLine', '', '333333', '')
-    endif
-    call <SID>X('CursorLineNr', 'babdb6', '', 'none')
-
-    " Default Colors
-    call <SID>X('Normal', 'babdb6', '1e2426', '')
-    "call <SID>X('NonText', '2c3032', '2c3032', 'none')
-    call <SID>X('NonText', '505456', '2c3032', '')
-    call <SID>X('Cursor', '', 'babdb6', '')
-    call <SID>X('ICursor', '', 'babdb6', '')
-
-    " IME Cursor
-    if exists('edark_ime_cursor') && edark_ime_cursor == 1
-      if has('multi_byte_ime') || has('xim')
-        call <SID>X('CursorIM', 'NONE', '8ae234', '')
-      endif
-    endif
-
-    " Search
-    call <SID>X('Search', '2e3436', 'fcaf3e', '')
-    call <SID>X('IncSearch', 'ff8060', '2e3436', '')
-
-    " Window Elements
-    call <SID>X('StatusLine', '2e3436', 'babdb6', 'none')
-    call <SID>X('StatusLineNC', '2e3436', '888a85', 'none')
-    call <SID>X('VertSplit', '555753', '888a85', 'none')
-    call <SID>X('Visual', '', '333333', '')
-    call <SID>X('MoreMsg', '729fcf', '', '')
-    call <SID>X('Question', '8ae234', '', 'none')
-    call <SID>X('WildMenu', 'eeeeec', '0e1416', '')
-    call <SID>X('LineNr', '3f4b4d', '000000', '')
-    call <SID>X('SignColumn', '', '1e2426', '')
-
-    " Insert mode status line
-    if exists('edark_insert_status_line') && edark_insert_status_line == 1
-      augroup InsertHook
-        autocmd!
-        autocmd InsertEnter * exec "hi StatusLine guifg=#2e3436 guibg=#ccdc90"
-        autocmd InsertLeave * exec "hi StatusLine guifg=#2e3436 guibg=#babdb6 gui=none"
-      augroup END
-    endif
-
-    " Pmenu
-    call <SID>X('Pmenu', 'eeeeec', '2e3436', '')
-    call <SID>X('PmenuSel', '1e2426', 'ffffff', '')
-    call <SID>X('PmenuSbar', '', '555753', '')
-    call <SID>X('PmenuThumb', 'ffffff', '', '')
-
-    " QuickFix
-    call <SID>X('qfLineNr', '8ae234', '', '')
-
-    " Diff
-    "call <SID>X('DiffDelete', '2e3436', '0e1416', '')
-    "call <SID>X('DiffAdd', '', '1f2b2d', '')
-    "call <SID>X('DiffChange', '', '2e3436', '')
-    "call <SID>X('DiffText', '', '000000', 'none')
-    call <SID>X('DiffDelete', 'afafaf', '4e3437', 'none')
-    call <SID>X('DiffAdd', 'afafaf', '30493b', 'none')
-    call <SID>X('DiffChange', 'afafaf', '54573b', 'none')
-    call <SID>X('DiffText', 'cfcfcf', '727750', 'none')
-
-    " Folds
-    call <SID>X('Folded', 'd3d7cf', '204a87', '')
-    call <SID>X('FoldColumn', '3465a4', '000000', '')
-
-    " Specials
-    call <SID>X('Title', 'fcaf3e', '', '')
-    call <SID>X('Todo', 'fcaf3e', 'bg', '')
-    call <SID>X('SpecialKey', 'ad7fa8', '', '')
-
-    " Tabs
-    call <SID>X('TabLine', '888a85', '0a1012', '')
-    call <SID>X('TabLineFill', '0a1012', '', '')
-    call <SID>X('TabLineSel', 'eeeeec', '555753', 'none')
-
-    " Matches
-    call <SID>X('MatchParen', '2e3436', '906090', '')
-
-    " Tree
-    call <SID>X('Directory', 'ffffff', '', '')
-
-    " Syntax
-    call <SID>X('Comment', '809090', '', '')
-    call <SID>X('Constant', '8ae234', '', '')
-    call <SID>X('Number', '8ae234', '', '')
-    call <SID>X('Statement', '729fcf', '', 'none')
-    call <SID>X('Identifier', 'ffffff', '', '')
-    call <SID>X('PreProc', 'fcaf3e', '', '')
-    call <SID>X('Function', 'fcaf3e', '', '')
-    call <SID>X('Type', 'e3e7df', '', 'none')
-    call <SID>X('Keyword', 'eeeeec', '', '')
-    call <SID>X('Special', '888a85', '', '')
-    call <SID>X('Error', 'eeeeec', 'cc0000', '')
-    call <SID>X('', '', '', '')
-
-    " PHP
-    call <SID>X('phpRegionDelimiter', 'ad7fa8', '', '')
-    call <SID>X('phpPropertySelector', '888a85', '', '')
-    call <SID>X('phpPropertySelectorInString', '888a85', '', '')
-    call <SID>X('phpOperator', '888a85', '', '')
-    call <SID>X('phpArrayPair', '888a85', '', '')
-    call <SID>X('phpAssignByRef', '888a85', '', '')
-    call <SID>X('phpRelation', '888a85', '', '')
-    call <SID>X('phpMemberSelector', '888a85', '', '')
-    call <SID>X('phpUnknownSelector', '888a85', '', '')
-    call <SID>X('phpVarSelector', 'babdb6', '', '')
-    call <SID>X('phpSemicolon', '888a85', '', 'none')
-    call <SID>X('phpFunctions', 'd3d7cf', '', '')
-    call <SID>X('phpParent', '888a85', '', '')
-
-    " JavaScript
-    call <SID>X('javaScriptBraces', '888a85', '', '')
-    call <SID>X('javaScriptOperator', '888a85', '', '')
-
-    " HTML
-    call <SID>X('htmlTag', '888a85', '', '')
-    call <SID>X('htmlEndTag', '888a85', '', '')
-    call <SID>X('htmlTagName', 'babdb6', '', '')
-    call <SID>X('htmlSpecialTagName', 'babdb6', '', '')
-    call <SID>X('htmlArg', 'd3d7cf', '', '')
-    call <SID>X('htmlTitle', '8ae234', '', 'none')
-    hi link htmlH1 htmlTitle
-    hi link htmlH2 htmlH1
-    hi link htmlH3 htmlH1
-    hi link htmlH4 htmlH1
-    hi link htmlH5 htmlH1
-    hi link htmlH6 htmlH1
-
-    " XML
-    hi link xmlTag htmlTag
-    hi link xmlEndTag htmlEndTag
-    hi link xmlAttrib htmlArg
-
-    " CSS
-    call <SID>X('cssSelectorOp', 'eeeeec', '', '')
-    hi link cssSelectorOp2 cssSelectorOp
-    call <SID>X('cssUIProp', 'd3d7cf', '', '')
-    hi link cssPagingProp cssUIProp
-    hi link cssGeneratedContentProp cssUIProp
-    hi link cssRenderProp cssUIProp
-    hi link cssBoxProp cssUIProp
-    hi link cssTextProp cssUIProp
-    hi link cssColorProp cssUIProp
-    hi link cssFontProp cssUIProp
-    call <SID>X('cssPseudoClassId', 'eeeeec', '', '')
-    call <SID>X('cssBraces', '888a85', '', '')
-    call <SID>X('cssIdentifier', 'fcaf3e', '', '')
-    call <SID>X('cssTagName', 'fcaf3e', '', '')
-    hi link cssInclude Function
-    hi link cssCommonAttr Constant
-    hi link cssUIAttr Constant
-    hi link cssTableAttr Constant
-    hi link cssPagingAttr Constant
-    hi link cssGeneratedContentAttr Constant
-    hi link cssAuralAttr Constant
-    hi link cssRenderAttr Constant
-    hi link cssBoxAttr Constant
-    hi link cssTextAttr Constant
-    hi link cssColorAttr Constant
-    hi link cssFontAttr Constant
-
-    " diff
-    hi link diffFile Title
-    hi link diffAdded DiffAdd
-    hi link diffRemoved DiffDelete
-    hi link diffChanged DiffChange
-
-    " delete functions {{{
-    delf <SID>X
-    delf <SID>rgb
-    delf <SID>color
-    delf <SID>rgb_color
-    delf <SID>rgb_level
-    delf <SID>rgb_number
-    delf <SID>grey_color
-    delf <SID>grey_level
-    delf <SID>grey_number
-    " }}}
+" Current Line
+if exists('g:edark_current_line') && g:edark_current_line == 1
+  set cursorline
+  highlight CursorLine guibg=#333333 ctermbg=235
 endif
+highlight CursorLineNr guifg=#babdb6 ctermfg=145 gui=none cterm=none
+
+" Default Colors
+highlight Normal guifg=#babdb6 ctermfg=145 guibg=#1e2426 ctermbg=16
+"highlight NonText guifg=#2c3032 ctermfg=235 guibg=#2c3032 ctermbg=235
+highlight NonText guifg=#505456 ctermfg=59 guibg=#2c3032 ctermbg=235
+highlight Cursor guibg=#babdb6 ctermbg=145
+highlight ICursor guibg=#babdb6 ctermbg=145
+
+" IME Cursor
+if exists('g:edark_ime_cursor') && g:edark_ime_cursor == 1
+  if has('multi_byte_ime') || has('xim')
+    highlight CursorIM guifg=NONE ctermfg=NONE guibg=#8ae234 ctermbg=112
+  endif
+endif
+
+" Search
+highlight Search guifg=#2e3436 ctermfg=16 guibg=#fcaf3e ctermbg=214
+highlight IncSearch guifg=#ff8060 ctermfg=209 guibg=#2e3436 ctermbg=16
+
+" Window Elements
+highlight StatusLine guifg=#2e3436 ctermfg=16 guibg=#babdb6 ctermbg=145 gui=none cterm=none
+highlight StatusLineNC guifg=#2e3436 ctermfg=16 guibg=#888a85 ctermbg=244 gui=none cterm=none
+highlight VertSplit guifg=#555753 ctermfg=239 guibg=#888a85 ctermbg=244 gui=none cterm=none
+highlight Visual guibg=#333333 ctermbg=235
+highlight MoreMsg guifg=#729fcf ctermfg=74
+highlight Question guifg=#8ae234 ctermfg=112 gui=none cterm=none
+highlight WildMenu guifg=#eeeeec ctermfg=254 guibg=#0e1416 ctermbg=232
+highlight LineNr guifg=#3f4b4d ctermfg=23 guibg=#000000 ctermbg=16
+highlight SignColumn guibg=#1e2426 ctermbg=16
+
+" Insert mode status line
+if exists('g:edark_insert_status_line') && g:edark_insert_status_line == 1
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * exec "highlight StatusLine guifg=#2e3436 ctermfg=16 guibg=#ccdc90 ctermbg=186"
+    autocmd InsertLeave * exec "highlight StatusLine guifg=#2e3436 ctermfg=16 guibg=#babdb6 ctermbg=145 gui=none"
+  augroup END
+endif
+
+" Pmenu
+highlight Pmenu guifg=#eeeeec ctermfg=254 guibg=#2e3436 ctermbg=16
+highlight PmenuSel guifg=#1e2426 ctermfg=16 guibg=#ffffff ctermbg=231
+highlight PmenuSbar guibg=#555753 ctermbg=239
+highlight PmenuThumb guifg=#ffffff ctermfg=231
+
+" QuickFix
+highlight qfLineNr guifg=#8ae234 ctermfg=112
+
+" Diff
+" highlight DiffDelete guifg=#2e3436 ctermfg=16 guibg=#0e1416 ctermbg=232
+" highlight DiffAdd guibg=#1f2b2d ctermbg=16
+" highlight DiffChange guibg=#2e3436 ctermbg=16
+" highlight DiffText guibg=#000000 ctermbg=16 gui=none cterm=none
+highlight DiffDelete guifg=#afafaf ctermfg=248 guibg=#4e3437 ctermbg=52 gui=none cterm=none
+highlight DiffAdd guifg=#afafaf ctermfg=248 guibg=#30493b ctermbg=16 gui=none cterm=none
+highlight DiffChange guifg=#afafaf ctermfg=248 guibg=#54573b ctermbg=58 gui=none cterm=none
+highlight DiffText guifg=#cfcfcf ctermfg=251 guibg=#727750 ctermbg=65 gui=none cterm=none
+
+" Folds
+highlight Folded guifg=#d3d7cf ctermfg=188 guibg=#204a87 ctermbg=18
+highlight FoldColumn guifg=#3465a4 ctermfg=25 guibg=#000000 ctermbg=16
+
+" Specials
+highlight Title guifg=#fcaf3e ctermfg=214
+highlight Todo guifg=#fcaf3e ctermfg=214 guibg=bg ctermbg=bg
+highlight SpecialKey guifg=#ad7fa8 ctermfg=139
+
+" Tabs
+highlight TabLine guifg=#888a85 ctermfg=244 guibg=#0a1012 ctermbg=16
+highlight TabLineFill guifg=#0a1012 ctermfg=16
+highlight TabLineSel guifg=#eeeeec ctermfg=254 guibg=#555753 ctermbg=239 gui=none cterm=none
+
+" Matches
+highlight MatchParen guifg=#2e3436 ctermfg=16 guibg=#906090 ctermbg=96
+
+" Tree
+highlight Directory guifg=#ffffff ctermfg=231
+
+" Syntax
+highlight Comment guifg=#809090 ctermfg=102
+highlight Constant guifg=#8ae234 ctermfg=112
+highlight Number guifg=#8ae234 ctermfg=112
+highlight Statement guifg=#729fcf ctermfg=74 gui=none cterm=none
+highlight Identifier guifg=#ffffff ctermfg=231
+highlight PreProc guifg=#fcaf3e ctermfg=214
+highlight Function guifg=#fcaf3e ctermfg=214
+highlight Type guifg=#e3e7df ctermfg=253 gui=none cterm=none
+highlight Keyword guifg=#eeeeec ctermfg=254
+highlight Special guifg=#888a85 ctermfg=244
+highlight Error guifg=#eeeeec ctermfg=254 guibg=#cc0000 ctermbg=160
+
+" PHP
+highlight phpRegionDelimiter guifg=#ad7fa8 ctermfg=139
+highlight phpPropertySelector guifg=#888a85 ctermfg=244
+highlight phpPropertySelectorInString guifg=#888a85 ctermfg=244
+highlight phpOperator guifg=#888a85 ctermfg=244
+highlight phpArrayPair guifg=#888a85 ctermfg=244
+highlight phpAssignByRef guifg=#888a85 ctermfg=244
+highlight phpRelation guifg=#888a85 ctermfg=244
+highlight phpMemberSelector guifg=#888a85 ctermfg=244
+highlight phpUnknownSelector guifg=#888a85 ctermfg=244
+highlight phpVarSelector guifg=#babdb6 ctermfg=145
+highlight phpSemicolon guifg=#888a85 ctermfg=244 gui=none cterm=none
+highlight phpFunctions guifg=#d3d7cf ctermfg=188
+highlight phpParent guifg=#888a85 ctermfg=244                                                                                  
+
+" JavaScript
+highlight javaScriptBraces guifg=#888a85 ctermfg=244
+highlight javaScriptOperator guifg=#888a85 ctermfg=244
+
+" HTML
+highlight htmlTag guifg=#888a85 ctermfg=244
+highlight htmlEndTag guifg=#888a85 ctermfg=244
+highlight htmlTagName guifg=#babdb6 ctermfg=145
+highlight htmlSpecialTagName guifg=#babdb6 ctermfg=145
+highlight htmlArg guifg=#d3d7cf ctermfg=188
+highlight htmlTitle guifg=#8ae234 ctermfg=112 gui=none cterm=none
+highlight link htmlH1 htmlTitle
+highlight link htmlH2 htmlH1
+highlight link htmlH3 htmlH1
+highlight link htmlH4 htmlH1
+highlight link htmlH5 htmlH1
+highlight link htmlH6 htmlH1
+
+" XML
+highlight link xmlTag htmlTag
+highlight link xmlEndTag htmlEndTag
+highlight link xmlAttrib htmlArg
+
+" CSS
+highlight cssSelectorOp guifg=#eeeeec ctermfg=254
+highlight link cssSelectorOp2 cssSelectorOp
+highlight cssUIProp guifg=#d3d7cf ctermfg=188
+highlight link cssPagingProp cssUIProp
+highlight link cssGeneratedContentProp cssUIProp
+highlight link cssRenderProp cssUIProp
+highlight link cssBoxProp cssUIProp
+highlight link cssTextProp cssUIProp
+highlight link cssColorProp cssUIProp
+highlight link cssFontProp cssUIProp
+highlight cssPseudoClassId guifg=#eeeeec ctermfg=254
+highlight cssBraces guifg=#888a85 ctermfg=244
+highlight cssIdentifier guifg=#fcaf3e ctermfg=214
+highlight cssTagName guifg=#fcaf3e ctermfg=214
+highlight link cssInclude Function
+highlight link cssCommonAttr Constant
+highlight link cssUIAttr Constant
+highlight link cssTableAttr Constant
+highlight link cssPagingAttr Constant
+highlight link cssGeneratedContentAttr Constant
+highlight link cssAuralAttr Constant
+highlight link cssRenderAttr Constant
+highlight link cssBoxAttr Constant
+highlight link cssTextAttr Constant
+highlight link cssColorAttr Constant
+highlight link cssFontAttr Constant
+
+" diff
+highlight link diffFile Title
+highlight link diffAdded DiffAdd
+highlight link diffRemoved DiffDelete
+highlight link diffChanged DiffChange
+
+" vim: set fdm=marker:
