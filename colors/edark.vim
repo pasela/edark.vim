@@ -1,8 +1,8 @@
 " Vim color file
 " Maintainer: Yuki <paselan at Gmail.com>
 " URL: https://github.com/pasela/edark.vim
-" Last Change: Wed, 02 Jan 2013 01:09:32 +0900
-" Version: 0.1.9
+" Last Change: Mon, 07 Jan 2013 17:15:23 +0900
+" Version: 0.1.10
 "
 " A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color scheme.
 "
@@ -15,6 +15,9 @@
 "   - let g:edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
 "
 " Changelog:
+"   0.1.10
+"     - Change the colors of htmlTagName and htmlSpecialTagName to orange from silver.
+"
 "   0.1.9
 "     - Performance improved. Stopped dynamic calculation of CUI color palette
 "       index and set it statically.
@@ -187,7 +190,7 @@ highlight phpUnknownSelector guifg=#888a85 ctermfg=244
 highlight phpVarSelector guifg=#babdb6 ctermfg=145
 highlight phpSemicolon guifg=#888a85 ctermfg=244 gui=none cterm=none
 highlight phpFunctions guifg=#d3d7cf ctermfg=188
-highlight phpParent guifg=#888a85 ctermfg=244                                                                                  
+highlight phpParent guifg=#888a85 ctermfg=244
 
 " JavaScript
 highlight javaScriptBraces guifg=#888a85 ctermfg=244
@@ -196,8 +199,10 @@ highlight javaScriptOperator guifg=#888a85 ctermfg=244
 " HTML
 highlight htmlTag guifg=#888a85 ctermfg=244
 highlight htmlEndTag guifg=#888a85 ctermfg=244
-highlight htmlTagName guifg=#babdb6 ctermfg=145
-highlight htmlSpecialTagName guifg=#babdb6 ctermfg=145
+" highlight htmlTagName guifg=#babdb6 ctermfg=145
+" highlight htmlSpecialTagName guifg=#babdb6 ctermfg=145
+highlight htmlTagName guifg=#fcaf3e ctermfg=214
+highlight htmlSpecialTagName guifg=#fcaf3e ctermfg=214
 highlight htmlArg guifg=#d3d7cf ctermfg=188
 highlight htmlTitle guifg=#8ae234 ctermfg=112 gui=none cterm=none
 highlight link htmlH1 htmlTitle
