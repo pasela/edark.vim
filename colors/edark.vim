@@ -1,8 +1,8 @@
 " Vim color file
 " Maintainer: Yuki <paselan at Gmail.com>
 " URL: https://github.com/pasela/edark.vim
-" Last Change: Mon, 07 Jan 2013 17:15:23 +0900
-" Version: 0.1.10
+" Last Change: Thu, 25 Apr 2013 01:01:36 +0900
+" Version: 0.1.11
 "
 " A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color scheme.
 "
@@ -15,6 +15,9 @@
 "   - let g:edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
 "
 " Changelog:
+"   0.1.11
+"     - Refine CUI colors.
+"
 "   0.1.10
 "     - Change the colors of htmlTagName and htmlSpecialTagName to orange from silver.
 "
@@ -83,16 +86,16 @@ let g:colors_name = "edark"
 " Current Line
 if exists('g:edark_current_line') && g:edark_current_line == 1
   set cursorline
-  highlight CursorLine guibg=#333333 ctermbg=235
+  highlight CursorLine guibg=#333333 ctermbg=236
 endif
-highlight CursorLineNr guifg=#babdb6 ctermfg=145 gui=none cterm=none
+highlight CursorLineNr guifg=#babdb6 ctermfg=250 gui=none cterm=none
 
 " Default Colors
-highlight Normal guifg=#babdb6 ctermfg=145 guibg=#1e2426 ctermbg=16
+highlight Normal guifg=#babdb6 ctermfg=250 guibg=#1e2426 ctermbg=234
 "highlight NonText guifg=#2c3032 ctermfg=235 guibg=#2c3032 ctermbg=235
-highlight NonText guifg=#505456 ctermfg=59 guibg=#2c3032 ctermbg=235
-highlight Cursor guibg=#babdb6 ctermbg=145
-highlight ICursor guibg=#babdb6 ctermbg=145
+highlight NonText guifg=#505456 ctermfg=239 guibg=#2c3032 ctermbg=235
+highlight Cursor guibg=#babdb6 ctermbg=250
+highlight ICursor guibg=#babdb6 ctermbg=250
 
 " IME Cursor
 if exists('g:edark_ime_cursor') && g:edark_ime_cursor == 1
@@ -102,50 +105,50 @@ if exists('g:edark_ime_cursor') && g:edark_ime_cursor == 1
 endif
 
 " Search
-highlight Search guifg=#2e3436 ctermfg=16 guibg=#fcaf3e ctermbg=214
-highlight IncSearch guifg=#ff8060 ctermfg=209 guibg=#2e3436 ctermbg=16
+highlight Search guifg=#2e3436 ctermfg=236 guibg=#fcaf3e ctermbg=214
+highlight IncSearch guifg=#ff8060 ctermfg=209 guibg=#2e3436 ctermbg=236
 
 " Window Elements
-highlight StatusLine guifg=#2e3436 ctermfg=16 guibg=#babdb6 ctermbg=145 gui=none cterm=none
-highlight StatusLineNC guifg=#2e3436 ctermfg=16 guibg=#888a85 ctermbg=244 gui=none cterm=none
-highlight VertSplit guifg=#555753 ctermfg=239 guibg=#888a85 ctermbg=244 gui=none cterm=none
-highlight Visual guibg=#333333 ctermbg=235
-highlight MoreMsg guifg=#729fcf ctermfg=74
+highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#babdb6 ctermbg=250 gui=none cterm=none
+highlight StatusLineNC guifg=#2e3436 ctermfg=236 guibg=#888a85 ctermbg=102 gui=none cterm=none
+highlight VertSplit guifg=#555753 ctermfg=240 guibg=#888a85 ctermbg=102 gui=none cterm=none
+highlight Visual guibg=#333333 ctermbg=236
+highlight MoreMsg guifg=#729fcf ctermfg=68
 highlight Question guifg=#8ae234 ctermfg=112 gui=none cterm=none
-highlight WildMenu guifg=#eeeeec ctermfg=254 guibg=#0e1416 ctermbg=232
-highlight LineNr guifg=#3f4b4d ctermfg=23 guibg=#000000 ctermbg=16
-highlight SignColumn guibg=#1e2426 ctermbg=16
+highlight WildMenu guifg=#eeeeec ctermfg=255 guibg=#0e1416 ctermbg=234
+highlight LineNr guifg=#3f4b4d ctermfg=238 guibg=#000000 ctermbg=16
+highlight SignColumn guibg=#1e2426 ctermbg=234
 
 " Insert mode status line
 if exists('g:edark_insert_status_line') && g:edark_insert_status_line == 1
   augroup InsertHook
     autocmd!
-    autocmd InsertEnter * exec "highlight StatusLine guifg=#2e3436 ctermfg=16 guibg=#ccdc90 ctermbg=186"
-    autocmd InsertLeave * exec "highlight StatusLine guifg=#2e3436 ctermfg=16 guibg=#babdb6 ctermbg=145 gui=none"
+    autocmd InsertEnter * exec "highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#ccdc90 ctermbg=186"
+    autocmd InsertLeave * exec "highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#babdb6 ctermbg=250 gui=none"
   augroup END
 endif
 
 " Pmenu
-highlight Pmenu guifg=#eeeeec ctermfg=254 guibg=#2e3436 ctermbg=16
-highlight PmenuSel guifg=#1e2426 ctermfg=16 guibg=#ffffff ctermbg=231
-highlight PmenuSbar guibg=#555753 ctermbg=239
+highlight Pmenu guifg=#eeeeec ctermfg=255 guibg=#2e3436 ctermbg=236
+highlight PmenuSel guifg=#1e2426 ctermfg=234 guibg=#ffffff ctermbg=231
+highlight PmenuSbar guibg=#555753 ctermbg=240
 highlight PmenuThumb guifg=#ffffff ctermfg=231
 
 " QuickFix
 highlight qfLineNr guifg=#8ae234 ctermfg=112
 
 " Diff
-" highlight DiffDelete guifg=#2e3436 ctermfg=16 guibg=#0e1416 ctermbg=232
-" highlight DiffAdd guibg=#1f2b2d ctermbg=16
-" highlight DiffChange guibg=#2e3436 ctermbg=16
+" highlight DiffDelete guifg=#2e3436 ctermfg=236 guibg=#0e1416 ctermbg=234
+" highlight DiffAdd guibg=#1f2b2d ctermbg=235
+" highlight DiffChange guibg=#2e3436 ctermbg=236
 " highlight DiffText guibg=#000000 ctermbg=16 gui=none cterm=none
 highlight DiffDelete guifg=#afafaf ctermfg=248 guibg=#4e3437 ctermbg=52 gui=none cterm=none
-highlight DiffAdd guifg=#afafaf ctermfg=248 guibg=#30493b ctermbg=16 gui=none cterm=none
+highlight DiffAdd guifg=#afafaf ctermfg=248 guibg=#30493b ctermbg=22 gui=none cterm=none
 highlight DiffChange guifg=#afafaf ctermfg=248 guibg=#54573b ctermbg=58 gui=none cterm=none
-highlight DiffText guifg=#cfcfcf ctermfg=251 guibg=#727750 ctermbg=65 gui=none cterm=none
+highlight DiffText guifg=#cfcfcf ctermfg=252 guibg=#727750 ctermbg=101 gui=none cterm=none
 
 " Folds
-highlight Folded guifg=#d3d7cf ctermfg=188 guibg=#204a87 ctermbg=18
+highlight Folded guifg=#d3d7cf ctermfg=188 guibg=#204a87 ctermbg=25
 highlight FoldColumn guifg=#3465a4 ctermfg=25 guibg=#000000 ctermbg=16
 
 " Specials
@@ -154,12 +157,12 @@ highlight Todo guifg=#fcaf3e ctermfg=214 guibg=bg ctermbg=bg
 highlight SpecialKey guifg=#ad7fa8 ctermfg=139
 
 " Tabs
-highlight TabLine guifg=#888a85 ctermfg=244 guibg=#0a1012 ctermbg=16
-highlight TabLineFill guifg=#0a1012 ctermfg=16
-highlight TabLineSel guifg=#eeeeec ctermfg=254 guibg=#555753 ctermbg=239 gui=none cterm=none
+highlight TabLine guifg=#888a85 ctermfg=102 guibg=#0a1012 ctermbg=233
+highlight TabLineFill guifg=#0a1012 ctermfg=233
+highlight TabLineSel guifg=#eeeeec ctermfg=255 guibg=#555753 ctermbg=240 gui=none cterm=none
 
 " Matches
-highlight MatchParen guifg=#2e3436 ctermfg=16 guibg=#906090 ctermbg=96
+highlight MatchParen guifg=#2e3436 ctermfg=236 guibg=#906090 ctermbg=96
 
 " Tree
 highlight Directory guifg=#ffffff ctermfg=231
@@ -168,39 +171,39 @@ highlight Directory guifg=#ffffff ctermfg=231
 highlight Comment guifg=#809090 ctermfg=102
 highlight Constant guifg=#8ae234 ctermfg=112
 highlight Number guifg=#8ae234 ctermfg=112
-highlight Statement guifg=#729fcf ctermfg=74 gui=none cterm=none
+highlight Statement guifg=#729fcf ctermfg=68 gui=none cterm=none
 highlight Identifier guifg=#ffffff ctermfg=231
 highlight PreProc guifg=#fcaf3e ctermfg=214
 highlight Function guifg=#fcaf3e ctermfg=214
-highlight Type guifg=#e3e7df ctermfg=253 gui=none cterm=none
-highlight Keyword guifg=#eeeeec ctermfg=254
-highlight Special guifg=#888a85 ctermfg=244
-highlight Error guifg=#eeeeec ctermfg=254 guibg=#cc0000 ctermbg=160
+highlight Type guifg=#e3e7df ctermfg=254 gui=none cterm=none
+highlight Keyword guifg=#eeeeec ctermfg=255
+highlight Special guifg=#888a85 ctermfg=102
+highlight Error guifg=#eeeeec ctermfg=255 guibg=#cc0000 ctermbg=160
 
 " PHP
 highlight phpRegionDelimiter guifg=#ad7fa8 ctermfg=139
-highlight phpPropertySelector guifg=#888a85 ctermfg=244
-highlight phpPropertySelectorInString guifg=#888a85 ctermfg=244
-highlight phpOperator guifg=#888a85 ctermfg=244
-highlight phpArrayPair guifg=#888a85 ctermfg=244
-highlight phpAssignByRef guifg=#888a85 ctermfg=244
-highlight phpRelation guifg=#888a85 ctermfg=244
-highlight phpMemberSelector guifg=#888a85 ctermfg=244
-highlight phpUnknownSelector guifg=#888a85 ctermfg=244
-highlight phpVarSelector guifg=#babdb6 ctermfg=145
-highlight phpSemicolon guifg=#888a85 ctermfg=244 gui=none cterm=none
+highlight phpPropertySelector guifg=#888a85 ctermfg=102
+highlight phpPropertySelectorInString guifg=#888a85 ctermfg=102
+highlight phpOperator guifg=#888a85 ctermfg=102
+highlight phpArrayPair guifg=#888a85 ctermfg=102
+highlight phpAssignByRef guifg=#888a85 ctermfg=102
+highlight phpRelation guifg=#888a85 ctermfg=102
+highlight phpMemberSelector guifg=#888a85 ctermfg=102
+highlight phpUnknownSelector guifg=#888a85 ctermfg=102
+highlight phpVarSelector guifg=#babdb6 ctermfg=250
+highlight phpSemicolon guifg=#888a85 ctermfg=102 gui=none cterm=none
 highlight phpFunctions guifg=#d3d7cf ctermfg=188
-highlight phpParent guifg=#888a85 ctermfg=244
+highlight phpParent guifg=#888a85 ctermfg=102
 
 " JavaScript
-highlight javaScriptBraces guifg=#888a85 ctermfg=244
-highlight javaScriptOperator guifg=#888a85 ctermfg=244
+highlight javaScriptBraces guifg=#888a85 ctermfg=102
+highlight javaScriptOperator guifg=#888a85 ctermfg=102
 
 " HTML
-highlight htmlTag guifg=#888a85 ctermfg=244
-highlight htmlEndTag guifg=#888a85 ctermfg=244
-" highlight htmlTagName guifg=#babdb6 ctermfg=145
-" highlight htmlSpecialTagName guifg=#babdb6 ctermfg=145
+highlight htmlTag guifg=#888a85 ctermfg=102
+highlight htmlEndTag guifg=#888a85 ctermfg=102
+" highlight htmlTagName guifg=#babdb6 ctermfg=250
+" highlight htmlSpecialTagName guifg=#babdb6 ctermfg=250
 highlight htmlTagName guifg=#fcaf3e ctermfg=214
 highlight htmlSpecialTagName guifg=#fcaf3e ctermfg=214
 highlight htmlArg guifg=#d3d7cf ctermfg=188
@@ -218,7 +221,7 @@ highlight link xmlEndTag htmlEndTag
 highlight link xmlAttrib htmlArg
 
 " CSS
-highlight cssSelectorOp guifg=#eeeeec ctermfg=254
+highlight cssSelectorOp guifg=#eeeeec ctermfg=255
 highlight link cssSelectorOp2 cssSelectorOp
 highlight cssUIProp guifg=#d3d7cf ctermfg=188
 highlight link cssPagingProp cssUIProp
@@ -228,8 +231,8 @@ highlight link cssBoxProp cssUIProp
 highlight link cssTextProp cssUIProp
 highlight link cssColorProp cssUIProp
 highlight link cssFontProp cssUIProp
-highlight cssPseudoClassId guifg=#eeeeec ctermfg=254
-highlight cssBraces guifg=#888a85 ctermfg=244
+highlight cssPseudoClassId guifg=#eeeeec ctermfg=255
+highlight cssBraces guifg=#888a85 ctermfg=102
 highlight cssIdentifier guifg=#fcaf3e ctermfg=214
 highlight cssTagName guifg=#fcaf3e ctermfg=214
 highlight link cssInclude Function
