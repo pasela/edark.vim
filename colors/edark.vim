@@ -1,8 +1,8 @@
 " Vim color file
 " Maintainer: Yuki <paselan at Gmail.com>
 " URL: https://github.com/pasela/edark.vim
-" Last Change: Thu, 25 Apr 2013 01:01:36 +0900
-" Version: 0.1.11
+" Last Change: Thu, 20 Mar 2014 10:50:03 +0900
+" Version: 0.1.12
 "
 " A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color scheme.
 "
@@ -15,6 +15,9 @@
 "   - let g:edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
 "
 " Changelog:
+"   0.1.12
+"     - ADD: 'SpellBad', 'SpellCap', 'SpellRare', 'SpellLocal'
+"
 "   0.1.11
 "     - Refine CUI colors.
 "
@@ -107,6 +110,12 @@ endif
 " Search
 highlight Search guifg=#2e3436 ctermfg=236 guibg=#fcaf3e ctermbg=214
 highlight IncSearch guifg=#ff8060 ctermfg=209 guibg=#2e3436 ctermbg=236
+
+" Spell
+highlight SpellBad gui=undercurl guisp=#ff0000 ctermfg=196 ctermbg=bg cterm=underline
+highlight SpellCap gui=undercurl guisp=#005fff ctermfg=27 ctermbg=bg cterm=underline
+highlight SpellRare gui=undercurl guisp=#af00af ctermfg=127 ctermbg=bg cterm=underline
+highlight SpellLocal gui=undercurl guisp=#00afd7 ctermfg=38 ctermbg=bg cterm=underline
 
 " Window Elements
 highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#babdb6 ctermbg=250 gui=none cterm=none
