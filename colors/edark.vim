@@ -1,8 +1,8 @@
 " Vim color file
 " Maintainer: Yuki <paselan at Gmail.com>
 " URL: https://github.com/pasela/edark.vim
-" Last Change: Thu, 20 Mar 2014 10:50:03 +0900
-" Version: 0.1.12
+" Last Change: Mon, 24 Mar 2014 10:47:51 +0900
+" Version: 0.1.13
 "
 " A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color scheme.
 "
@@ -15,6 +15,9 @@
 "   - let g:edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
 "
 " Changelog:
+"   0.1.13
+"     - Always clear augroup when loaded
+"
 "   0.1.12
 "     - ADD: 'SpellBad', 'SpellCap', 'SpellRare', 'SpellLocal'
 "
@@ -129,12 +132,12 @@ highlight LineNr guifg=#3f4b4d ctermfg=238 guibg=#000000 ctermbg=16
 highlight SignColumn guibg=#1e2426 ctermbg=234
 
 " Insert mode status line
+augroup EDarkInsertHook
+  autocmd!
+augroup END
 if exists('g:edark_insert_status_line') && g:edark_insert_status_line == 1
-  augroup InsertHook
-    autocmd!
-    autocmd InsertEnter * exec "highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#ccdc90 ctermbg=186"
-    autocmd InsertLeave * exec "highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#babdb6 ctermbg=250 gui=none"
-  augroup END
+  autocmd EDarkInsertHook InsertEnter * exec "highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#ccdc90 ctermbg=186"
+  autocmd EDarkInsertHook InsertLeave * exec "highlight StatusLine guifg=#2e3436 ctermfg=236 guibg=#babdb6 ctermbg=250 gui=none"
 endif
 
 " Pmenu
