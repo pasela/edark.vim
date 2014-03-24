@@ -1,7 +1,7 @@
 " Vim color file
 " Maintainer: Yuki <paselan at Gmail.com>
 " URL: https://github.com/pasela/edark.vim
-" Last Change: Mon, 24 Mar 2014 10:47:51 +0900
+" Last Change: Mon, 24 Mar 2014 10:49:08 +0900
 " Version: 0.1.13
 "
 " A dark color scheme for GUI and 256 colors CUI, inspired by the rdark color scheme.
@@ -10,13 +10,13 @@
 " (rdark http://www.vim.org/scripts/script.php?script_id=1732)
 "
 " Features:
-"   - let g:edark_current_line = 1 if you want to highlight the current line
 "   - let g:edark_ime_cursor = 1 if you want to highlight the cursor when IME on
 "   - let g:edark_insert_status_line = 1 if you want to highlight the status line when insert-mode
 "
 " Changelog:
 "   0.1.13
 "     - Always clear augroup when loaded
+"     - Remove g:edark_current_line. Set 'cursorline' manually.
 "
 "   0.1.12
 "     - ADD: 'SpellBad', 'SpellCap', 'SpellRare', 'SpellLocal'
@@ -90,10 +90,7 @@ endif
 let g:colors_name = "edark"
 
 " Current Line
-if exists('g:edark_current_line') && g:edark_current_line == 1
-  set cursorline
-  highlight CursorLine guibg=#333333 ctermbg=236
-endif
+highlight CursorLine guibg=#333333 ctermbg=236
 highlight CursorLineNr guifg=#babdb6 ctermfg=250 gui=none cterm=none
 
 " Default Colors
